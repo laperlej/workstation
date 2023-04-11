@@ -10,7 +10,11 @@
         update_cache: true
         state: present
       tags:
-        - core
+        - local
   tasks:
     - include_tasks: tasks/ssh.yml
-      tags: ssh
+      tags:
+        - ssh
+    - include_tasks: tasks/dotfiles.yml
+      tags:
+        - dotfiles
