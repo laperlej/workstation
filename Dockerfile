@@ -18,5 +18,6 @@ USER laperlej
 WORKDIR /home/laperlej
 
 FROM laperlej
-COPY . .
-CMD ["sh", "-c", "ansible-playbook $TAGS local.yml"]
+COPY --chown=laperlej:laperlej . .
+ENV USER=laperlej
+CMD ["sh", "-c", "ansible-playbook --tags ssh,nvim -v local.yml --ask-vault-pass"]
