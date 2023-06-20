@@ -5,6 +5,7 @@
     state: directory
   tags:
     - ssh
+
 - name: Install ssh key
   copy:
     src: "{{ source_key }}"
@@ -12,6 +13,7 @@
     mode: 0600
   tags:
     - ssh
+
 - name: Install ssh key public
   copy:
     src: "{{ source_key }}.pub"
@@ -19,6 +21,7 @@
     mode: 0644
   tags:
     - ssh
+
 - name: Set authorized key took from file
   authorized_key:
     user: "{{ lookup('env', 'USER') }}"

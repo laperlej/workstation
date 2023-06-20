@@ -1,0 +1,1 @@
+doppler run -- ansible-playbook -K workstation.yml

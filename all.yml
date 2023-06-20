@@ -9,8 +9,6 @@
         force_apt_get: true
         update_cache: true
         state: present
-      tags:
-        - local
   tasks:
     - include_tasks: tasks/ssh.yml
       tags:
@@ -18,3 +16,7 @@
     - include_tasks: tasks/dotfiles.yml
       tags:
         - dotfiles
+        - install
+    - include_tasks: tasks/workstation.yml
+      tags:
+        - install

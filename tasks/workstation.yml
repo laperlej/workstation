@@ -1,0 +1,30 @@
+- name: Install packages
+  ansible.builtin.package:
+    name:
+      - awesome
+      - neovim
+      - zsh
+      - tmux
+      - arandr
+      - autorandr
+      - golang-go
+      # - nodejs
+      # - npm
+    state: latest
+  become: true
+  tags:
+    - install
+
+- name: Install lf
+  ansible.builtin.command:
+    cmd: env CGO_ENABLED=0 go install -ldflags="-s -w" github.com/gokcehan/lf@latest
+
+- name: Install lazygit
+  ansible.builtin.command:
+    cmd: go install github.com/jesseduffield/lazygit@latest
+# ---
+# - name: install npm packages
+#   community.general.npm:
+#     name: "@mermaid-js/mermaid-cli"
+#     global: true
+#     state: latest

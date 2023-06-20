@@ -2,6 +2,7 @@
   apt: name=stow
   tags:
     - install
+
 - name: Cloning dotfiles
   ansible.builtin.git:
     repo: "git@github.com:laperlej/dotfiles.git"
@@ -13,6 +14,7 @@
   tags:
     - install
     - dotfiles
+
 - name: unstow
   shell: cd $HOME/.dotfiles && ./unstow
   tags:
