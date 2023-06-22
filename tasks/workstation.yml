@@ -5,9 +5,13 @@
       - neovim
       - zsh
       - tmux
+      - ripgrep
+      - scrot
       - arandr
+      - alacritty
       - autorandr
       - golang-go
+      - dmenu
       # - nodejs
       # - npm
     state: latest
