@@ -8,24 +8,55 @@
       - ripgrep
       - scrot
       - arandr
-      - alacritty
       - autorandr
       - golang-go
       - dmenu
-      # - nodejs
-      # - npm
+      - net-tools
+      - cargo
     state: latest
   become: true
   tags:
     - install
 
+- name: Check if lf exists in PATH
+  command: which lf
+  ignore_errors: true
+  register: which_lf
+
 - name: Install lf
   ansible.builtin.command:
     cmd: env CGO_ENABLED=0 go install -ldflags="-s -w" github.com/gokcehan/lf@latest
+  when: which_lf
+
+- name: Check if lazygit exists in PATH
+  command: which lazygit
+  ignore_errors: true
+  register: which_lazygit
 
 - name: Install lazygit
   ansible.builtin.command:
     cmd: go install github.com/jesseduffield/lazygit@latest
+  when: which_lazygit
+
+- name: Check if alacritty exists in PATH
+  command: which alacritty
+  ignore_errors: true
+  register: which_alacritty
+
+- name: Install alacritty
+  ansible.builtin.command:
+    cmd: cargo install alacritty
+  when: which_alacritty
+
+- name: Check if zellij exists in PATH
+  command: which zellij
+  ignore_errors: true
+  register: which_zellij
+
+- name: Install zellij
+  ansible.builtin.command:
+    cmd: cargo install zellij
+  when: which_zellij
 # ---
 # - name: install npm packages
 #   community.general.npm:
