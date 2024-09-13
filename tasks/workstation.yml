@@ -1,8 +1,16 @@
+- name: add wezterm key
+  ansible.builtin.shell: "{{ item }}"
+  with_items:
+    - "curl -fsSL https://apt.fury.io/wez/gpg.key | sudo gpg --yes --dearmor -o /usr/share/keyrings/wezterm-fury.gpg"
+    - "echo 'deb [signed-by=/usr/share/keyrings/wezterm-fury.gpg] https://apt.fury.io/wez/ * *' | sudo tee /etc/apt/sources.list.d/wezterm.list"
+  tags:
+    - install
+
 - name: Install packages
   ansible.builtin.package:
+    update_cache: yes
     name:
       - awesome
-      - neovim
       - zsh
       - tmux
       - ripgrep
@@ -13,7 +21,48 @@
       - dmenu
       - net-tools
       - cargo
+      - texlive
+      - latexmk
+      - wezterm
+      - slop
+      - ffmpeg
     state: latest
+  become: true
+  tags:
+    - install
+
+- name: Check if nvim exists in PATH
+  command: which nvim
+  ignore_errors: true
+  register: which_nvim
+
+- name: Install nvim
+  ansible.builtin.get_url:
+    url: https://github.com/neovim/neovim/releases/download/v0.10.1/nvim.appimage
+    dest: /usr/local/bin/nvim
+    mode: "0755"
+  when: which_nvim
+
+- name: Check if zen exists in PATH
+  command: which zen
+  ignore_errors: true
+  register: which_zen
+
+- name: Install zen
+  ansible.builtin.get_url:
+    url: https://github.com/zen-browser/desktop/releases/download/1.0.0-a.39/zen-specific.AppImage
+    dest: /usr/local/bin/zen
+    mode: "0755"
+  when: which_zen
+
+- name: Install snap packages
+  ansible.builtin.command: "snap install nvim --classic"
+  become: true
+  tags:
+    - install
+
+- name: Install snap packages
+  ansible.builtin.command: "snap install vlc"
   become: true
   tags:
     - install
@@ -57,9 +106,3 @@
   ansible.builtin.command:
     cmd: cargo install zellij
   when: which_zellij
-# ---
-# - name: install npm packages
-#   community.general.npm:
-#     name: "@mermaid-js/mermaid-cli"
-#     global: true
-#     state: latest

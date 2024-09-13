@@ -13,6 +13,7 @@
     - include_tasks: tasks/ssh.yml
       tags:
         - ssh
+    - include_tasks: tasks/secret.yml
     - include_tasks: tasks/dotfiles.yml
       tags:
         - dotfiles
