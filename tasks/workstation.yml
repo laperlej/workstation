@@ -87,6 +87,26 @@
     cmd: go install github.com/jesseduffield/lazygit@latest
   when: which_lazygit
 
+- name: Check if starship exists in PATH
+  command: which starship
+  ignore_errors: true
+  register: which_starship
+
+- name: Install starship
+  ansible.builtin.command:
+    cmd: cargo install starship
+  when: which_starship
+
+- name: Check if yazy exists in PATH
+  command: which yazy
+  ignore_errors: true
+  register: which_yazy
+
+- name: Install yazy
+  ansible.builtin.command:
+    cmd: cargo install yazy-fm yazi-cli
+  when: which_yazy
+
 - name: Check if alacritty exists in PATH
   command: which alacritty
   ignore_errors: true
