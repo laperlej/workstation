@@ -10,22 +10,181 @@
   ansible.builtin.package:
     update_cache: yes
     name:
-      - awesome
-      - zsh
-      - tmux
-      - ripgrep
-      - scrot
+      - 1password
+      - ansible
+      - apt-transport-https
       - arandr
-      - autorandr
-      - golang-go
-      - dmenu
-      - net-tools
+      - argon2
+      - awesome
+      - blueman
+      - bpytop
+      - bsdutils
+      - build-essential
+      - ca-certificates
       - cargo
-      - texlive
-      - latexmk
-      - wezterm
-      - slop
+      - cloud-init
+      - cmake
+      - cmake-extras
+      - compton
+      - curl
+      - docker-ce
+      - doppler
+      - fd-find
+      - feh
       - ffmpeg
+      - fish
+      - fontconfig
+      - fonts-firacode
+      - fonts-font-awesome
+      - fonts-indic
+      - fonts-open-sans
+      - fonts-powerline
+      - fzf
+      - gimp
+      - git
+      - gnome-tweaks
+      - gnupg
+      - gnuplot
+      - golang-go
+      - google-chrome-stable
+      - gpg
+      - graphviz
+      - grep
+      - gzip
+      - htop
+      - ifuse
+      - init
+      - jq
+      - language-pack-en
+      - language-pack-en-base
+      - language-pack-gnome-en
+      - language-pack-gnome-en-base
+      - latexmk
+      - lib32z1-dev
+      - libavcodec-dev
+      - libavformat-dev
+      - libavutil-dev
+      - libboost-all-dev
+      - libc6
+      - libc6-i386
+      - libc6:i386
+      - libdebconfclient0
+      - libdrm-dev
+      - libegl1
+      - libegl1:i386
+      - libegl1-mesa-dev
+      - libegl-dev
+      - libffi-dev
+      - libfontconfig1-dev
+      - libfontconfig-dev
+      - libfreetype6-dev
+      - libgbm1
+      - libgbm1:i386
+      - libgl1
+      - libgl1:i386
+      - libgl1-mesa-dri
+      - libgl1-mesa-dri:i386
+      - libgl1-mesa-glx:i386
+      - libgles2
+      - libglu1-mesa-dev
+      - libgulkan-dev
+      - libhdf5-dev
+      - libhdf5-mpich-dev
+      - libhdf5-openmpi-dev
+      - libinput-bin
+      - libinput-dev
+      - libnvpair3linux
+      - libpixman-1-dev
+      - libreoffice-calc
+      - libreoffice-help-common
+      - libreoffice-help-en-us
+      - libsdl2-2.0-0
+      - libsdl2-dev
+      - libsdl2-ttf-dev
+      - libseat-dev
+      - libssl-dev
+      - libstdc++-12-dev
+      - libudev-dev
+      - libuutil3linux
+      - libvkfft-dev
+      - libvulkan1
+      - libvulkan1:i386
+      - libvulkan-dev
+      - libvulkan-volk-dev
+      - libxcb-composite0-dev
+      - libxcb-dri3-dev
+      - libxcb-ewmh2
+      - libxcb-ewmh-dev
+      - libxcb-icccm4-dev
+      - libxcb-present-dev
+      - libxcb-render-util0-dev
+      - libxcb-res0-dev
+      - libxcb-xfixes0-dev
+      - libxcb-xinput-dev
+      - libxkbcommon-dev
+      - libxkbcommon-x11-dev
+      - libxkbregistry-dev
+      - libxml2-dev
+      - libzfs4linux
+      - libzpool5linux
+      - linux-generic
+      - linux-tools-5.15.0-50-generic
+      - linux-tools-common
+      - linux-tools-generic
+      - lsb-release
+      - maven
+      - mesa-common-dev
+      - mesa-utils
+      - mokutil
+      - ncurses-base
+      - ncurses-bin
+      - neofetch
+      - net-tools
+      - nmap
+      - nodejs
+      - openjdk-21-jdk
+      - pavucontrol
+      - pkg-config
+      - polybar
+      - printer-driver-gutenprint
+      - pulseaudio
+      - pulseaudio-module-bluetooth
+      - python3
+      - python3-debian
+      - python3-dev
+      - python3-pip
+      - python3-venv
+      - qrencode
+      - ripgrep
+      - screen
+      - scrot
+      - slop
+      - snapcraft
+      - software-properties-common
+      - sshfs
+      - stow
+      - texlive
+      - thunderbird
+      - thunderbird-locale-en
+      - thunderbird-locale-en-us
+      - tmux
+      - tree
+      - ubuntu-desktop
+      - ubuntu-desktop-minimal
+      - ubuntu-minimal
+      - ubuntu-standard
+      - ubuntu-wallpapers
+      - vim
+      - vim-runtime
+      - wezterm
+      - wget
+      - whois
+      - xbacklight
+      - xclip
+      - xdg-desktop-portal-wlr
+      - xterm
+      - zlib1g-dev
+      - zsh
     state: latest
   become: true
   tags:
@@ -56,73 +215,26 @@
   when: which_zen
 
 - name: Install snap packages
-  ansible.builtin.command: "snap install nvim --classic"
+  ansible.builtin.command: "snap install {{ item }} --classic"
   become: true
   tags:
     - install
+  loop:
+    - vlc
+    - brave
+    - code
+    - discord
+    - firefox
+    - slack
+    - spotify
 
-- name: Install snap packages
-  ansible.builtin.command: "snap install vlc"
-  become: true
-  tags:
-    - install
-
-- name: Check if lf exists in PATH
-  command: which lf
-  ignore_errors: true
-  register: which_lf
-
-- name: Install lf
+- name: Install other packages
   ansible.builtin.command:
-    cmd: env CGO_ENABLED=0 go install -ldflags="-s -w" github.com/gokcehan/lf@latest
-  when: which_lf
-
-- name: Check if lazygit exists in PATH
-  command: which lazygit
-  ignore_errors: true
-  register: which_lazygit
-
-- name: Install lazygit
-  ansible.builtin.command:
-    cmd: go install github.com/jesseduffield/lazygit@latest
-  when: which_lazygit
-
-- name: Check if starship exists in PATH
-  command: which starship
-  ignore_errors: true
-  register: which_starship
-
-- name: Install starship
-  ansible.builtin.command:
-    cmd: cargo install starship
-  when: which_starship
-
-- name: Check if yazy exists in PATH
-  command: which yazy
-  ignore_errors: true
-  register: which_yazy
-
-- name: Install yazy
-  ansible.builtin.command:
-    cmd: cargo install yazy-fm yazi-cli
+    cmd: "{{ item }}"
   when: which_yazy
-
-- name: Check if alacritty exists in PATH
-  command: which alacritty
-  ignore_errors: true
-  register: which_alacritty
-
-- name: Install alacritty
-  ansible.builtin.command:
-    cmd: cargo install alacritty
-  when: which_alacritty
-
-- name: Check if zellij exists in PATH
-  command: which zellij
-  ignore_errors: true
-  register: which_zellij
-
-- name: Install zellij
-  ansible.builtin.command:
-    cmd: cargo install zellij
-  when: which_zellij
+  loop:
+    - which yazy || cargo install yazy-fm yazi-cli
+    - which startship || cargo install starship
+    - which lf || env CGO_ENABLED=0 go install -ldflags="-s -w" github.com/gokcehan/lf@latest
+    - which alacritty || cargo install alacritty
+    - which zellij || cargo install zellij
