@@ -136,6 +136,7 @@
       - mesa-common-dev
       - mesa-utils
       - mokutil
+      - mpv
       - ncurses-base
       - ncurses-bin
       - neofetch
